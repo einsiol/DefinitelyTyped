@@ -131,12 +131,11 @@ declare namespace loadImage {
  * if the callback argument contains the option object.
  */
 
-interface LoadImage {
-    (
-        file: File | Blob | string,
-        callbackOrOption?: loadImage.LoadImageCallback | loadImage.LoadImageOptions,
-        options?: loadImage.LoadImageOptions,
-    ): Promise<loadImage.PromiseData> & HTMLImageElement & FileReader & false;
+interface LoadImageCallBack {
+    (file: File | Blob | string, callback?: loadImage.LoadImageCallback, options?: loadImage.LoadImageOptions):
+        | HTMLImageElement
+        | FileReader
+        | false;
 
     // Parses image meta data and calls the callback with the image head
     parseMetaData: (
@@ -149,6 +148,10 @@ interface LoadImage {
     blobSlice: (this: Blob, start?: number, end?: number) => Blob;
 }
 
-declare const loadImage: LoadImage;
+interface LoadImagePromise {
+    (file: File | Blob | string, options?: loadImage.LoadImageOptions): Promise<loadImage.PromiseData>;
+}
+
+declare const loadImage: LoadImageCallBack & LoadImagePromise;
 
 export = loadImage;
