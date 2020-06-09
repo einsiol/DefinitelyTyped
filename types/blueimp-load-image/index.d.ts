@@ -124,6 +124,8 @@ declare namespace loadImage {
     }
 
     type LoadImageOptions = BasicOptions & CanvasOptions & CropOptions & MetaOptions;
+
+    type loadImageFile = File | Blob | string;
 }
 
 /**
@@ -132,14 +134,14 @@ declare namespace loadImage {
  */
 
 interface LoadImageCallBack {
-    (file: File | Blob | string, callback?: loadImage.LoadImageCallback, options?: loadImage.LoadImageOptions):
+    (file: loadImage.loadImageFile, callback?: loadImage.LoadImageCallback, options?: loadImage.LoadImageOptions):
         | HTMLImageElement
         | FileReader
         | false;
 
     // Parses image meta data and calls the callback with the image head
     parseMetaData: (
-        file: File | Blob | string,
+        file: loadImage.loadImageFile,
         callback: loadImage.ParseMetaDataCallback,
         options?: loadImage.ParseOptions,
         data?: loadImage.ImageHead,
@@ -149,7 +151,7 @@ interface LoadImageCallBack {
 }
 
 interface LoadImagePromise {
-    (file: File | Blob | string, options?: loadImage.LoadImageOptions): Promise<loadImage.PromiseData>;
+    (file: loadImage.loadImageFile, options?: loadImage.LoadImageOptions): Promise<loadImage.PromiseData>;
 }
 
 declare const loadImage: LoadImageCallBack & LoadImagePromise;
